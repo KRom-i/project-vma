@@ -1,6 +1,7 @@
 package gpn.controller;
 
 
+import gpn.contract.Claim;
 import gpn.exception.UserNotFoundException;
 import gpn.interfaces.service.IAuthenticationService;
 import gpn.util.JwtRequest;
@@ -35,7 +36,11 @@ public class JwtAuthenticationController {
         }
 
         try {
-            String token = authenticationService.getAuthToken(userName);
+
+            String token = authenticationService.getAuthToken(userName,
+                    authenticationRequest.getLastName (),
+                    authenticationRequest.getTelephone ());
+
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (UserNotFoundException e) {
             //log.info(String.format("User %s not found", userName));

@@ -31,7 +31,8 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     private IClaimsService claimsService;
 
     @Override
-    public String getAuthToken(String userName) throws UserNotFoundException, ApplicationException {
+    public String getAuthToken (String userName, String lastName, String telephone)
+            throws UserNotFoundException, NamingException, ApplicationException {
 
         SystemUser sUser = new SystemUser();
         sUser.setUserName(userName);
@@ -39,10 +40,15 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         sUser.setDisplayName("-");
         sUser.setEmail("-");
         sUser.setGuid("-");
+        sUser.setId (1L);
+        sUser.setLastName (lastName);
+        sUser.setTelephone (telephone);
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-        return jwtTokenUtil.generateToken(userDetails, sUser);
+        return  jwtTokenUtil.generateToken(userDetails, sUser);
     }
+
+
 
     /**
      * запонение контракта из ldap
