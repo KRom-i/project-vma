@@ -48,8 +48,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+                String  lastName = (String ) jwtTokenUtil.getAllClaimsFromToken(jwtToken).remove("lastName");
+                String  telephone =  (String ) jwtTokenUtil.getAllClaimsFromToken(jwtToken).remove("telephone");
                 id = (Integer) jwtTokenUtil.getAllClaimsFromToken(jwtToken).remove("id");
                 claims = (List<Claim>) jwtTokenUtil.getAllClaimsFromToken(jwtToken).get(keyRole);
+
+                System.out.printf(" ******* USER id: %s, username: %s, lastName: %s, telephone: %s.\n",
+                        id, username, lastName, telephone);
+
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
